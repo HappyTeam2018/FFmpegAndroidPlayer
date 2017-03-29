@@ -1,18 +1,16 @@
 package com.fuchao.ffmpegandroidplayer;
 
-import android.content.res.ObbInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "VideoPlayer";
-    public static final String PATH = "/mnt/sdcard/a.mp4";
+    public static String PATH = "/mnt/sdcard/a.mp4";
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private VideoPlayer videoPlayer;
@@ -23,7 +21,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.surfaceView = (SurfaceView) findViewById(R.id.surface_view);
         this.surfaceHolder = surfaceView.getHolder();
-        //创建视屏播放器
+
+        //注册打开方式接收Uri数据
+        PATH = Utils.getVideoPath(getIntent());
+        if (TextUtils.isEmpty(PATH)){
+            Toast.makeText(getApplicationContext(),"请在文件管理器中打开视频，并选择FFMPEGAndroidPlayer打开",Toast.LENGTH_SHORT).show();
+        }
+
+        //创建视频播放器
         this.videoPlayer = new VideoPlayer(PATH);
         this.surfaceHolder.addCallback(new SurfaceHolder.Callback() {
             @Override

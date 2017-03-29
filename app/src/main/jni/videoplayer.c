@@ -8,6 +8,7 @@
 #include <android/native_window_jni.h>
 #include <android/log.h>
 #include <stdio.h>
+#include <libavutil/imgutils.h>
 
 //定义日志打印
 #define  LOG_TAG    "VideoPlayer"
@@ -26,8 +27,7 @@ ANativeWindow *nativeWindow = NULL;//本地窗口
  * Method:    init
  * Signature: (Ljava/lang/Object;)V
  */
-JNIEXPORT jint JNICALL Java_com_fuchao_ffmpegandroidplayer_VideoPlayer_init
-        (JNIEnv *env, jobject jobj, jobject surfaceObj)
+JNIEXPORT jint JNICALL Java_com_fuchao_ffmpegandroidplayer_VideoPlayer_init(JNIEnv *env, jobject jobj, jobject surfaceObj)
 {
     LOGE("Hello world");
     //取出文件路径

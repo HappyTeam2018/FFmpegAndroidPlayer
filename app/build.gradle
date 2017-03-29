@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
     //屏蔽掉gradle编译native代码,使用mk文件来组织编译
     sourceSets {
         main {
@@ -21,11 +21,22 @@ android {
 //            moduleName "VideoPlayer"
 //            ldLibs "log"
 //        }
+        externalNativeBuild {
+            ndkBuild {
+                abiFilters "armeabi-v7a"//,"x86"
+            }
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "src/main/jni/Android.mk"
         }
     }
 }
@@ -37,9 +48,9 @@ dependencies {
 }
 
 //每次编译时自动调用ndk-build
-task ndkBuild(type: Exec) {
-    commandLine 'ndk-build', '-C', file('src/main/jni').absolutePath
-}
-tasks.withType(JavaCompile) {
-    compileTask -> compileTask.dependsOn ndkBuild
-}
+//task ndkBuild(type: Exec) {
+//    commandLine 'ndk-build', '-C', file('src/main/jni').absolutePath
+//}
+//tasks.withType(JavaCompile) {
+//    compileTask -> compileTask.dependsOn ndkBuild
+//}
